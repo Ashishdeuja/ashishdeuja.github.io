@@ -69,6 +69,39 @@
         const email = formData.get("email");
         const phone = formData.get("phone");
         const message = formData.get("message");
+    
+        // Validate inputs
+        let isValid = true;
+        
+        // Name validation
+        if (!/^[A-Za-z ]{3,}$/.test(name)) {
+            document.getElementById('name-error').textContent = 'Please enter a valid name (letters and spaces only, min 3 chars)';
+            isValid = false;
+        }
+        
+        // Email validation
+        if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i.test(email)) {
+            document.getElementById('email-error').textContent = 'Please enter a valid email address';
+            isValid = false;
+        }
+        
+        // Phone validation (optional but must be valid if provided)
+        if (phone && !/^[0-9]{10}$/.test(phone)) {
+            document.getElementById('phone-error').textContent = 'Phone number must be 10 digits';
+            isValid = false;
+        }
+        
+        // Message validation
+        if (message.trim().length < 10) {
+            document.getElementById('message-error').textContent = 'Message must be at least 10 characters';
+            isValid = false;
+        }
+        
+        if (!isValid) {
+            alertify.error('Please correct the errors in the form');
+            return;
+        }
+      
 
         const payload = {
             access_key: ACCESS_KEY,
